@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskMS · Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav id="nav"></nav>
+  <div class="page">
+    <div class="page-head"><h2>Administration</h2></div>
+
+    <div class="grid two-col">
+      <div class="panel">
+        <div class="page-head" style="margin-bottom:14px;">
+          <h4 style="margin:0;">Users</h4>
+          <button class="btn btn-sm" id="newUserBtn">+ User</button>
+        </div>
+        <div id="users"></div>
+      </div>
+      <div class="panel">
+        <div class="page-head" style="margin-bottom:14px;">
+          <h4 style="margin:0;">Task types</h4>
+          <button class="btn btn-sm" id="newTypeBtn">+ Type</button>
+        </div>
+        <div id="types"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="userModal">
+    <div class="modal">
+      <h3 id="userModalTitle">New user</h3>
+      <form id="userForm">
+        <input type="hidden" id="u_id">
+        <label>Full name</label><input id="u_fullName" required>
+        <label>Email</label><input type="email" id="u_email" required>
+        <label>Password <span class="muted" id="u_pwHint"></span></label>
+        <input type="password" id="u_password">
+        <div class="row2">
+          <div><label>Role</label>
+            <select id="u_role">
+              <option value="ADMIN">Admin</option>
+              <option value="HR_MANAGER">HR Manager</option>
+              <option value="HR_OFFICER" selected>HR Officer</option>
+            </select></div>
+          <div><label>Active</label>
+            <select id="u_active"><option value="true">Active</option><option value="false">Inactive</option></select></div>
+        </div>
+        <div class="error" id="userError"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" style="flex:1;" onclick="document.getElementById('userModal').classList.remove('open')">Cancel</button>
+          <button type="submit" class="btn" style="flex:1;">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="typeModal">
+    <div class="modal">
+      <h3 id="typeModalTitle">New task type</h3>
+      <form id="typeForm">
+        <input type="hidden" id="t_id">
+        <label>Name</label><input id="t_name" required>
+        <label>Description</label><textarea id="t_description"></textarea>
+        <div class="error" id="typeError"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" style="flex:1;" onclick="document.getElementById('typeModal').classList.remove('open')">Cancel</button>
+          <button type="submit" class="btn" style="flex:1;">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
