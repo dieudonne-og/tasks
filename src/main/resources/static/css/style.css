@@ -1,0 +1,161 @@
+:root {
+  --bg: #f4f2ee;
+  --surface: #ffffff;
+  --ink: #1c1a26;
+  --ink-soft: #5b5769;
+  --line: #e4e0d8;
+  --accent: #4a2fd6;
+  --accent-soft: #ece8fc;
+  --risk: #c8341f;
+  --risk-soft: #fbe6e2;
+  --ok: #1f8a52;
+  --ok-soft: #e2f2e9;
+  --warn: #b7791f;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(28,26,38,.06), 0 8px 24px rgba(28,26,38,.06);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- Login ---------- */
+.login-wrap {
+  min-height: 100vh; display: grid; place-items: center; padding: 24px;
+  background: radial-gradient(1200px 600px at 100% 0%, var(--accent-soft), transparent),
+              radial-gradient(900px 500px at 0% 100%, #f0ead9, transparent);
+}
+.login-card {
+  width: 100%; max-width: 380px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 20px; padding: 36px 32px;
+  box-shadow: var(--shadow);
+}
+.login-card h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: -.5px; }
+.login-card .sub { color: var(--ink-soft); margin: 0 0 24px; font-size: 14px; }
+.login-card .demo { margin-top: 18px; font-size: 12px; color: var(--ink-soft); line-height: 1.7; }
+.login-card .demo code { background: var(--bg); padding: 1px 6px; border-radius: 6px; }
+
+/* ---------- Forms ---------- */
+label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+input, select, textarea {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--line);
+  border-radius: 10px; font-size: 14px; background: var(--surface); color: var(--ink);
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+textarea { resize: vertical; min-height: 64px; }
+
+.btn {
+  width: 100%; margin-top: 18px; padding: 11px; border: none; border-radius: 10px;
+  background: var(--accent); color: #fff; font-weight: 600; font-size: 14px;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn-ghost {
+  background: transparent; border: 1px solid var(--line); border-radius: 8px;
+  padding: 6px 12px; font-size: 13px; color: var(--ink);
+}
+.btn-ghost:hover { background: var(--bg); }
+.btn-sm { width: auto; margin: 0; padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+.error { color: var(--risk); font-size: 13px; margin-top: 12px; min-height: 18px; }
+
+/* ---------- Nav ---------- */
+nav {
+  display: flex; align-items: center; gap: 24px; padding: 14px 28px;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 10;
+}
+.brand { font-weight: 800; font-size: 19px; letter-spacing: -.5px; }
+.brand-dot { color: var(--accent); }
+.nav-links { display: flex; gap: 6px; }
+.nav-links a { padding: 7px 14px; border-radius: 9px; font-size: 14px; color: var(--ink-soft); font-weight: 600; }
+.nav-links a:hover { background: var(--bg); }
+.nav-links a.active { background: var(--accent-soft); color: var(--accent); }
+.nav-user { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.user-name { font-weight: 600; }
+.role-badge {
+  background: var(--accent-soft); color: var(--accent); font-size: 11px; font-weight: 700;
+  padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: .3px;
+}
+
+/* ---------- Layout ---------- */
+.page { padding: 28px; max-width: 1300px; margin: 0 auto; }
+.page-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.page-head h2 { margin: 0; font-size: 24px; letter-spacing: -.5px; }
+
+/* ---------- Board ---------- */
+.board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.column { background: transparent; }
+.column h3 {
+  font-size: 13px; text-transform: uppercase; letter-spacing: .5px; color: var(--ink-soft);
+  margin: 0 0 12px; display: flex; align-items: center; gap: 8px;
+}
+.column h3 .count {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+  padding: 1px 8px; font-size: 12px; color: var(--ink);
+}
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow); cursor: pointer;
+  transition: transform .08s ease;
+}
+.card:hover { transform: translateY(-2px); }
+.card.risk { border-color: var(--risk); box-shadow: 0 0 0 1px var(--risk-soft); }
+.card .card-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+.card .card-meta { font-size: 12px; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 10px; }
+.pill { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+.pill-type { background: var(--bg); color: var(--ink-soft); }
+.pill-low { background: var(--ok-soft); color: var(--ok); }
+.pill-medium { background: #fdf3e0; color: var(--warn); }
+.pill-high { background: var(--risk-soft); color: var(--risk); }
+.card .predict {
+  margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line);
+  font-size: 12px; color: var(--ink-soft);
+}
+.card .predict b { color: var(--ink); }
+.risk-flag { color: var(--risk); font-weight: 700; }
+
+/* ---------- Modal ---------- */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(28,26,38,.35); display: none;
+  place-items: center; z-index: 50; padding: 20px;
+}
+.modal-backdrop.open { display: grid; }
+.modal {
+  background: var(--surface); border-radius: 18px; padding: 26px; width: 100%;
+  max-width: 460px; box-shadow: var(--shadow); max-height: 90vh; overflow: auto;
+}
+.modal h3 { margin: 0 0 16px; font-size: 19px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.modal-actions .btn { margin: 0; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ---------- Cards / stats ---------- */
+.grid { display: grid; gap: 16px; }
+.stats { grid-template-columns: repeat(4, 1fr); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+.panel h4 { margin: 0 0 14px; font-size: 14px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .4px; }
+.stat-value { font-size: 30px; font-weight: 800; letter-spacing: -1px; }
+.stat-label { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+.two-col { grid-template-columns: 1fr 1fr; }
+
+/* ---------- Bar chart ---------- */
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; }
+.bar-row .bar-label { width: 130px; color: var(--ink-soft); flex-shrink: 0; }
+.bar-track { flex: 1; background: var(--bg); border-radius: 20px; height: 20px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--accent); border-radius: 20px; }
+.bar-fill.alt { background: #d6a72f; }
+.bar-val { width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------- Table ---------- */
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink-soft); }
+tr:last-child td { border-bottom: none; }
+.tag-active { background: var(--ok-soft); color: var(--ok); padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.tag-inactive { background: var(--bg); color: var(--ink-soft); padding: 2px 8px; border-radius: 20px; font-size: 11px; }
+
+.section-gap { margin-top: 24px; }
+.muted { color: var(--ink-soft); font-size: 13px; }
+.suggestion { border-left: 3px solid var(--accent); padding: 10px 14px; margin-bottom: 10px; background: var(--bg); border-radius: 0 10px 10px 0; font-size: 13px; }
+.suggestion b { color: var(--accent); }

@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: taskms
+  datasource:
+    url: jdbc:h2:mem:taskms;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: false
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+server:
+  port: 8080
+
+taskms:
+  jwt:
+    # Raw UTF-8 secret, must be >=32 chars for HS256. Override in production.
+    secret: "change-this-secret-key-for-taskms-university-of-kigali-hr-2026"
+    expiration-minutes: 480
+  prediction:
+    min-training-samples: 20
+    retrain-after-new-completed: 10
+  workload:
+    overload-factor: 1.3
+
+logging:
+  level:
+    org.hibernate.SQL: warn
