@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration · HR Task Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="nav"></div>
+  <div class="container">
+    <h1 class="page-title">Administration</h1>
+    <p class="page-sub">Manage users and task categories, and retrain the prediction model.</p>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 style="margin:0">Prediction model</h3>
+        <button id="retrainBtn">Retrain now</button>
+      </div>
+      <div id="modelBox" class="mt"></div>
+    </div>
+
+    <div class="card mt">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 style="margin:0">Users</h3>
+        <button id="newUserBtn" class="small">+ Add user</button>
+      </div>
+      <div class="table-wrap mt"><table id="usersTable"></table></div>
+    </div>
+
+    <div class="card mt">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 style="margin:0">Task types</h3>
+        <button id="newTypeBtn" class="small">+ Add type</button>
+      </div>
+      <div class="table-wrap mt"><table id="typesTable"></table></div>
+    </div>
+  </div>
+
+  <!-- User modal -->
+  <div class="modal-backdrop" id="userModal">
+    <div class="modal">
+      <h2 id="userModalTitle">Add user</h2>
+      <form id="userForm">
+        <input type="hidden" id="userId">
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" required>
+        <label for="uemail">Email</label>
+        <input type="email" id="uemail" required>
+        <div class="form-row">
+          <div>
+            <label for="role">Role</label>
+            <select id="role">
+              <option value="HR_OFFICER">HR Officer</option>
+              <option value="HR_MANAGER">HR Manager</option>
+              <option value="ADMIN">Administrator</option>
+            </select>
+          </div>
+          <div>
+            <label for="upassword">Password</label>
+            <input type="text" id="upassword" placeholder="min 6 chars">
+          </div>
+        </div>
+        <div class="error-text" id="userErr"></div>
+        <div class="modal-actions">
+          <button type="button" class="ghost" onclick="document.getElementById('userModal').classList.remove('open')">Cancel</button>
+          <button type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Type modal -->
+  <div class="modal-backdrop" id="typeModal">
+    <div class="modal">
+      <h2 id="typeModalTitle">Add task type</h2>
+      <form id="typeForm">
+        <input type="hidden" id="typeId">
+        <label for="typeName">Name</label>
+        <input type="text" id="typeName" required>
+        <label for="typeDesc">Description</label>
+        <textarea id="typeDesc" rows="2"></textarea>
+        <div class="error-text" id="typeErr"></div>
+        <div class="modal-actions">
+          <button type="button" class="ghost" onclick="document.getElementById('typeModal').classList.remove('open')">Cancel</button>
+          <button type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+# Default profile: H2 in-memory database.
+# Lets the application run and be demoed without installing MySQL.
+# For MySQL, run with: --spring.profiles.active=mysql  (see application-mysql.yml)
+spring:
+  application:
+    name: taskms
+  datasource:
+    url: jdbc:h2:mem:taskms;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+server:
+  port: 8080
+
+# Application-specific settings
+taskms:
+  security:
+    # HS256 signing key (Base64). Override in production via TASKMS_JWT_SECRET env var.
+    jwt-secret: ${TASKMS_JWT_SECRET:Y2hhbmdlLW1lLXRoaXMtaXMtYS1kZW1vLXNlY3JldC1rZXktZm9yLXVvay10YXNrbXMtMjAyNg==}
+    jwt-expiration-minutes: 480
+  prediction:
+    # Minimum number of completed tasks before the trained model replaces the
+    # category-average fallback (Objective 3 / Limitation 1.7.1).
+    min-training-samples: 20
+    # Retrain automatically once this many new tasks have completed since last training.
+    retrain-every-completed: 10
+    # z-value for the confidence interval (1.96 = 95%).
+    confidence-z: 1.96
+  workload:
+    # A staff member is flagged as overloaded when their predicted open-task load
+    # exceeds the team mean by this factor.
+    overload-factor: 1.3
+
+logging:
+  level:
+    rw.ac.uok.taskms: INFO

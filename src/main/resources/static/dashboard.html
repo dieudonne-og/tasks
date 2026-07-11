@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard · HR Task Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="nav"></div>
+  <div class="container">
+    <h1 class="page-title">Reporting Dashboard</h1>
+    <p class="page-sub">Estimate accuracy, on-time delivery, workload balance, and model performance.</p>
+
+    <div class="grid stat-grid" id="stats"></div>
+
+    <div class="grid mt" style="grid-template-columns: 1fr 1fr;">
+      <div class="card">
+        <h3 style="margin-top:0">Estimate accuracy — manual vs AI</h3>
+        <p class="muted" style="font-size:13px">Mean absolute error against actual duration on completed tasks (lower is better).</p>
+        <div id="accuracy"></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Model performance</h3>
+        <div id="model"></div>
+      </div>
+    </div>
+
+    <div class="grid mt" style="grid-template-columns: 1fr 1fr;">
+      <div class="card">
+        <h3 style="margin-top:0">Tasks by status</h3>
+        <div id="statusChart"></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Tasks by type</h3>
+        <div id="typeChart"></div>
+      </div>
+    </div>
+
+    <div class="card mt">
+      <h3 style="margin-top:0">Workload balance &amp; redistribution</h3>
+      <p class="muted" style="font-size:13px">Predicted open-task load per staff member, with suggested moves to balance the team.</p>
+      <div id="workload"></div>
+      <div id="suggestions" class="mt"></div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

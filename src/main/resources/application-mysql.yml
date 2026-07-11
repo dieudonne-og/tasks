@@ -1,0 +1,20 @@
+# MySQL profile (production, per the research proposal).
+# Activate with:  ./mvnw spring-boot:run -Dspring-boot.run.profiles=mysql
+# or:             java -jar target/taskms-1.0.0.jar --spring.profiles.active=mysql
+#
+# Create the schema first:  CREATE DATABASE taskms;
+# Override credentials via env vars TASKMS_DB_USER / TASKMS_DB_PASSWORD.
+spring:
+  datasource:
+    url: ${TASKMS_DB_URL:jdbc:mysql://localhost:3306/taskms?createDatabaseIfNotExist=true&serverTimezone=UTC}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${TASKMS_DB_USER:root}
+    password: ${TASKMS_DB_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+  h2:
+    console:
+      enabled: false

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Board · HR Task Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="nav"></div>
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <h1 class="page-title">Task Board</h1>
+        <p class="page-sub" id="sub">Log work, record actual effort, and see AI deadline predictions.</p>
+      </div>
+      <button id="newBtn">+ New Task</button>
+    </div>
+    <div id="board" class="board"></div>
+  </div>
+
+  <!-- Task modal -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <h2 id="modalTitle">New Task</h2>
+      <form id="taskForm">
+        <input type="hidden" id="taskId">
+        <label for="title">Title</label>
+        <input type="text" id="title" required>
+        <label for="description">Description</label>
+        <textarea id="description" rows="2"></textarea>
+        <div class="form-row">
+          <div>
+            <label for="taskTypeId">Task type</label>
+            <select id="taskTypeId" required></select>
+          </div>
+          <div>
+            <label for="assigneeId">Assignee</label>
+            <select id="assigneeId" required></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="complexity">Complexity</label>
+            <select id="complexity">
+              <option value="LOW">Low</option>
+              <option value="MEDIUM" selected>Medium</option>
+              <option value="HIGH">High</option>
+            </select>
+          </div>
+          <div>
+            <label for="estimatedDurationDays">Your estimate (days)</label>
+            <input type="number" id="estimatedDurationDays" min="1">
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="startDate">Start date</label>
+            <input type="date" id="startDate">
+          </div>
+          <div>
+            <label for="dueDate">Deadline</label>
+            <input type="date" id="dueDate" required>
+          </div>
+        </div>
+        <div class="pred mt" id="predBox" style="display:none"></div>
+        <div class="error-text" id="modalErr"></div>
+        <div class="modal-actions">
+          <button type="button" class="ghost" onclick="closeModal()">Cancel</button>
+          <button type="submit" id="saveBtn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Complete modal -->
+  <div class="modal-backdrop" id="completeModal">
+    <div class="modal">
+      <h2>Complete Task</h2>
+      <p class="muted" id="completeTaskTitle"></p>
+      <form id="completeForm">
+        <input type="hidden" id="completeTaskId">
+        <label for="actualDurationDays">Actual effort spent (days)</label>
+        <input type="number" id="actualDurationDays" min="1" required>
+        <label for="completedDate">Completion date</label>
+        <input type="date" id="completedDate">
+        <div class="error-text" id="completeErr"></div>
+        <div class="modal-actions">
+          <button type="button" class="ghost" onclick="document.getElementById('completeModal').classList.remove('open')">Cancel</button>
+          <button type="submit">Mark complete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/board.js"></script>
+</body>
+</html>

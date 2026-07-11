@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login · HR Task Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="card login-card">
+      <h1>HR Task Management System</h1>
+      <p class="sub">AI-Based Deadline Prediction · University of Kigali</p>
+      <form id="loginForm">
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="username" value="admin@uok.ac.rw" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="current-password" value="password123" required>
+        <div class="error-text" id="err"></div>
+        <button type="submit" style="width:100%;margin-top:8px" id="submitBtn">Log in</button>
+      </form>
+      <div class="demo">
+        <strong>Demo accounts</strong> (password <code>password123</code>):<br>
+        admin@uok.ac.rw · manager@uok.ac.rw · officer1@uok.ac.rw
+      </div>
+    </div>
+  </div>
+  <script src="/js/api.js"></script>
+  <script>
+    if (Auth.token && Auth.user) location.href = '/board';
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const err = document.getElementById('err');
+      err.textContent = '';
+      btn.disabled = true;
+      try {
+        const data = await api('/auth/login', {
+          method: 'POST',
+          body: { email: document.getElementById('email').value.trim(), password: document.getElementById('password').value }
+        });
+        Auth.save(data.token, data.user);
+        location.href = '/board';
+      } catch (ex) {
+        err.textContent = ex.message;
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
