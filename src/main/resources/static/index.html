@@ -29,7 +29,7 @@
   </div>
   <script src="js/api.js"></script>
   <script>
-    if (API.token()) location.href = 'board.html';
+    if (API.token()) location.href = 'dashboard.html';
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const error = document.getElementById('error');
@@ -42,7 +42,7 @@
         API.setSession(res.token, {
           userId: res.userId, fullName: res.fullName, email: res.email, role: res.role,
         });
-        location.href = 'board.html';
+        location.href = 'dashboard.html';
       } catch (err) {
         error.textContent = err.message || 'Login failed';
       }

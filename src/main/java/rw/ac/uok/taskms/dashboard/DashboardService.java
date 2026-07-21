@@ -6,6 +6,8 @@ import rw.ac.uok.taskms.prediction.ModelMetricsRepository;
 import rw.ac.uok.taskms.task.Task;
 import rw.ac.uok.taskms.task.TaskRepository;
 import rw.ac.uok.taskms.task.TaskStatus;
+import rw.ac.uok.taskms.user.Role;
+import rw.ac.uok.taskms.user.User;
 import rw.ac.uok.taskms.workload.WorkloadService;
 import rw.ac.uok.taskms.workload.WorkloadService.AssigneeLoad;
 
@@ -42,8 +44,11 @@ public class DashboardService {
             List<ModelMetrics> latestMetrics) {
     }
 
-    public DashboardResponse build() {
-        List<Task> all = taskRepository.findAll();
+    public DashboardResponse build(User current) {
+        boolean manager = current.getRole() == Role.ADMIN || current.getRole() == Role.HR_MANAGER;
+        List<Task> all = manager
+                ? taskRepository.findAll()
+                : taskRepository.findByAssignee(current);
 
         Map<String, Long> byStatus = new LinkedHashMap<>();
         for (TaskStatus s : TaskStatus.values()) {
@@ -70,9 +75,15 @@ public class DashboardService {
 
         ModelMetrics active = metricsRepository.findByActiveTrue().stream().findFirst().orElse(null);
 
+        // Managers see the whole team's workload; officers see only their own line.
+        List<AssigneeLoad> workload = manager
+                ? workloadService.currentLoads()
+                : workloadService.currentLoads().stream()
+                        .filter(l -> l.userId().equals(current.getId())).toList();
+
         return new DashboardResponse(
                 all.size(), byStatus, byType, onTimeRate, accuracy,
-                workloadService.currentLoads(), active,
+                workload, active,
                 metricsRepository.findAllByOrderByTrainedAtDesc().stream().limit(4).toList());
     }
 

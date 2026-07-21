@@ -1,6 +1,9 @@
 const user = Auth.requireLogin();
 Auth.renderNav('dashboard.html');
-if (!Auth.isManager(user)) location.href = 'board.html';
+const isManager = Auth.isManager(user);
+if (!isManager) {
+  document.querySelector('.page-head h2').textContent = 'My Dashboard';
+}
 
 const MODEL_LABEL = { LINEAR_REGRESSION: 'Linear Regression', RANDOM_FOREST: 'Random Forest',
   CATEGORY_AVERAGE: 'Category average' };
@@ -12,8 +15,12 @@ async function load() {
   renderBars('byType', d.countByType, false);
   renderWorkload(d.workload);
   renderModels(d.latestMetrics, d.activeModel);
-  const s = await API.get('/api/workload/suggestions');
-  renderSuggestions(s);
+  if (isManager) {
+    const s = await API.get('/api/workload/suggestions');
+    renderSuggestions(s);
+  } else {
+    document.getElementById('suggestions').closest('.panel').style.display = 'none';
+  }
 }
 
 function renderStats(d) {

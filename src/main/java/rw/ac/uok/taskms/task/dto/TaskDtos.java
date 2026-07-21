@@ -1,5 +1,6 @@
 package rw.ac.uok.taskms.task.dto;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,7 +20,7 @@ public class TaskDtos {
             @NotNull Complexity complexity,
             Double estimatedDurationDays,
             LocalDate startDate,
-            @NotNull LocalDate dueDate) {
+            @NotNull @FutureOrPresent(message = "must be today or a future date") LocalDate dueDate) {
     }
 
     public record UpdateTaskRequest(
@@ -30,7 +31,7 @@ public class TaskDtos {
             @NotNull Complexity complexity,
             Double estimatedDurationDays,
             LocalDate startDate,
-            @NotNull LocalDate dueDate) {
+            @NotNull @FutureOrPresent(message = "must be today or a future date") LocalDate dueDate) {
     }
 
     public record StatusRequest(@NotNull TaskStatus status) {

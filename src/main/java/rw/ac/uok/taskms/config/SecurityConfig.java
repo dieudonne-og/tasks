@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/task-types/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .requestMatchers("/api/models/retrain").hasRole("ADMIN")
-                        .requestMatchers("/api/dashboard/**").hasAnyRole("ADMIN", "HR_MANAGER")
+                        .requestMatchers("/api/dashboard/**").authenticated()
                         .requestMatchers("/api/workload/**").hasAnyRole("ADMIN", "HR_MANAGER")
                         .anyRequest().authenticated())
                 .exceptionHandling(e -> e
