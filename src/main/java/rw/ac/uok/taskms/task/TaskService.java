@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rw.ac.uok.taskms.common.BadRequestException;
 import rw.ac.uok.taskms.common.NotFoundException;
+import rw.ac.uok.taskms.notification.NotificationService;
+import rw.ac.uok.taskms.notification.NotificationType;
 import rw.ac.uok.taskms.prediction.MlPredictionService;
 import rw.ac.uok.taskms.prediction.PredictionResult;
 import rw.ac.uok.taskms.task.dto.TaskDtos.CompleteRequest;
@@ -22,13 +24,16 @@ public class TaskService {
     private final TaskTypeRepository taskTypeRepository;
     private final UserRepository userRepository;
     private final MlPredictionService predictionService;
+    private final NotificationService notificationService;
 
     public TaskService(TaskRepository taskRepository, TaskTypeRepository taskTypeRepository,
-                       UserRepository userRepository, MlPredictionService predictionService) {
+                       UserRepository userRepository, MlPredictionService predictionService,
+                       NotificationService notificationService) {
         this.taskRepository = taskRepository;
         this.taskTypeRepository = taskTypeRepository;
         this.userRepository = userRepository;
         this.predictionService = predictionService;
+        this.notificationService = notificationService;
     }
 
     public List<Task> findAll() {
@@ -51,7 +56,9 @@ public class TaskService {
                 req.complexity(), req.estimatedDurationDays(), req.startDate(), req.dueDate());
         task.setCreatedBy(creator);
         applyPrediction(task);
-        return taskRepository.save(task);
+        Task saved = taskRepository.save(task);
+        notifyPrediction(saved);
+        return saved;
     }
 
     @Transactional
@@ -60,7 +67,30 @@ public class TaskService {
         applyFields(task, req.title(), req.description(), req.taskTypeId(), req.assigneeId(),
                 req.complexity(), req.estimatedDurationDays(), req.startDate(), req.dueDate());
         applyPrediction(task);
-        return taskRepository.save(task);
+        Task saved = taskRepository.save(task);
+        notifyPrediction(saved);
+        return saved;
+    }
+
+    /**
+     * Notifies the assignee of the model's duration prediction, and separately warns them
+     * when the task is at risk of missing its deadline (deduplicated while unread).
+     */
+    private void notifyPrediction(Task task) {
+        if (task.getAssignee() == null || task.getPredictedDurationDays() == null) {
+            return;
+        }
+        String model = task.getPredictionModel() != null ? task.getPredictionModel() : "model";
+        notificationService.notify(task.getAssignee(), NotificationType.PREDICTION,
+                "AI predicts \"" + task.getTitle() + "\" will take ~" + task.getPredictedDurationDays()
+                        + " days (95% CI " + task.getPredictedLowerDays() + "–"
+                        + task.getPredictedUpperDays() + "d, " + model + ").", task.getId());
+        if (isAtRisk(task)) {
+            notificationService.notifyOnce(task.getAssignee(), NotificationType.AT_RISK,
+                    "\"" + task.getTitle() + "\" is at risk of missing its deadline ("
+                            + task.getDueDate() + "): predicted effort exceeds the working days left.",
+                    task.getId());
+        }
     }
 
     @Transactional

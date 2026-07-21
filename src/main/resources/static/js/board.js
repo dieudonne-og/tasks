@@ -79,8 +79,17 @@ function fillSelects() {
     users.map(u => `<option value="${u.id}">${escapeHtml(u.fullName)}</option>`).join('');
 }
 
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+
+function limitDatesToFuture() {
+  const t = todayStr();
+  document.getElementById('f_dueDate').min = t;
+  document.getElementById('f_startDate').min = t;
+}
+
 function openNew() {
   document.getElementById('taskForm').reset();
+  limitDatesToFuture();
   document.getElementById('taskId').value = '';
   document.getElementById('modalTitle').textContent = 'New task';
   document.getElementById('completeSection').style.display = 'none';
@@ -94,6 +103,7 @@ function openEdit(id) {
   if (!t) return;
   const f = document.getElementById('taskForm');
   f.reset();
+  limitDatesToFuture();
   document.getElementById('taskId').value = t.id;
   document.getElementById('modalTitle').textContent = 'Edit task';
   document.getElementById('f_title').value = t.title;
